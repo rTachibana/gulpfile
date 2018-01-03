@@ -4,14 +4,17 @@ var path = require('path');
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
-var scss = require('gulp-sass');
+var sass = require('gulp-sass');
+var stylus = require('gulp-stylus');
 var pcss = require('gulp-postcss');
+var csso = require('gulp-csso');
 var maps = require('gulp-sourcemaps');
 var imgMin = require('gulp-imagemin');
 var imgMinP = require('imagemin-pngquant');
 var imgMinJ = require('imagemin-mozjpeg');
 // and more packages
 // ----
+// css-mqpacker
 // typescript-require
 // autoprefixer
 var getFolders = function (dir) {
@@ -26,7 +29,7 @@ var ts = dt.toFormat("YYYYMMDDHH24MI");
 // setting paths
 var Path = {
     src_css: './source/scss/',
-    src_img: './source/img/',
+    src_img: './source/img/**/*.*',
     dst_css: './publish/css/',
     dst_img: './publish/img/',
     bk_img: './_bk/'
@@ -37,22 +40,34 @@ var browser = [
     'ie >=  11',
     'android >= 5'
 ];
-var quality = '80-90';
+var quality = 80;
 gulp.task('t', function () {
     console.log(ts);
 });
+gulp.task('css', function () {
+    return gulp.src(Path.src_css + '**/**')
+        .pipe(maps.init())
+        .pipe(sass({ outputStyle: 'expanded' }))
+        .pipe(pcss([
+        require('css-mqpacker')(),
+        require('autoprefixer')({
+            browsers: browser
+        }),
+    ]))
+        .pipe(maps.write('./'))
+        .pipe(gulp.dest(Path.dst_css));
+});
 gulp.task('img', function () {
-    gulp.src('./source/img/' + '*.png')
+    gulp.src(Path.src_img)
         .pipe(gulp.dest(Path.bk_img + ts))
         .pipe(imgMin([
         imgMinP({
             quality: quality,
             speed: 1,
-            floyd: 0
+            verbose: false
         }),
         imgMinJ({
             quality: quality,
-            speed: 1,
             progressive: true
         }),
         imgMin.svgo(),
