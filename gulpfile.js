@@ -34,16 +34,14 @@ var Path = {
     dst_img: './publish/img/',
     bk_img: './_bk/'
 };
-// plefix optimize
+// settings plefix optimize
 var browser = [
     "last 1 safari versions",
     'ie >=  11',
     'android >= 5'
 ];
+// settings imgMin quality
 var quality = 80;
-gulp.task('t', function () {
-    console.log(ts);
-});
 gulp.task('css', function () {
     return gulp.src(Path.src_css + '**/**')
         .pipe(maps.init())

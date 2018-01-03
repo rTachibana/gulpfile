@@ -29,15 +29,13 @@ source/sass(scss)/をcssにコンパイルします。デフォルトではscss�
 `gulp img`
 `./source/img/` 下に存在するjpg,pngの画像を圧縮します。  
 デフォルトでは80%のクオリティを維持するようになっています。  
-圧縮前の画像は、 `./` の_bkフォルダ内に
-年月日時分秒/ファイル の構成でバックアップされます。
+圧縮前の画像は、 `./_bk/YYYYMMDDHH24MI/ファイル` の構成でバックアップされます。
 
 ---
 ## package.json
 中身を見ればわかりますがこのへんが `--save-dev` で入っています。
 
 gulpfileでconstするやつ
-1. npm
 1. gulp
 1. gulp-plumber
 1. gulp-postcss
@@ -49,6 +47,7 @@ gulpfileでconstするやつ
 1. imagemin-pngquant
 
 constしなくていいやつ
+1. npm
 1. autoprefixer
 1. css-mqpacker
 1. data-utils
