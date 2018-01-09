@@ -44,16 +44,14 @@ const Path = {
     bk_img: './_bk/'
 }
 
-// plefix optimize
+// settings vendor-plefix
 const browser = [
     "last 1 safari versions",
     'ie >=  11',
     'android >= 5'
 ]
+// settings imgMin quality
 const quality = 80;
-gulp.task('t',() => {
-    console.log(ts);
-});
 
 gulp.task('css', function () {
     return gulp.src( Path.src_css + '**/**' )
